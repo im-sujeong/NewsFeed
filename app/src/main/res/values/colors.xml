@@ -2,6 +2,7 @@
 <resources>
     <color name="color_primary">#27272A</color>
     <color name="color_on_primary">#EEEEEE</color>
+    <color name="color_secondary">#646464</color>
     <color name="color_text_primary">#27272A</color>
     <color name="color_text_secondary">#646464</color>
     <color name="color_text_tertiary">#D60000</color>
