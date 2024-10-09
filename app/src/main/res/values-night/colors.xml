@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_primary">#EEEEEE</color>
+    <color name="color_on_primary">#27272A</color>
+    <color name="color_text_primary">#EEEEEE</color>
+    <color name="color_text_secondary">#939393</color>
+    <color name="color_text_tertiary">#C60000</color>
+    <color name="color_background">#27272A</color>
+</resources>
