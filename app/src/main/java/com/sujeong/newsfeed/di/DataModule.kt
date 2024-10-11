@@ -1,8 +1,10 @@
 package com.sujeong.newsfeed.di
 
-import com.sujeong.newsfeed.data.datasource.NewsNetworkDataSource
+import com.sujeong.newsfeed.data.local.datasource.NewsLocalDataSourceImpl
+import com.sujeong.newsfeed.data.source.NewsNetworkDataSource
 import com.sujeong.newsfeed.data.network.datasource.NewsNetworkDataSourceImpl
 import com.sujeong.newsfeed.data.repository.NewsRepositoryImpl
+import com.sujeong.newsfeed.data.source.NewsLocalDataSource
 import com.sujeong.newsfeed.domain.repository.NewsRepository
 import dagger.Binds
 import dagger.Module
@@ -11,7 +13,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataBindModule {
+abstract class DataModule {
     @Binds
     abstract fun bindNewsRepository(
         newsRepositoryImpl: NewsRepositoryImpl
@@ -21,4 +23,9 @@ abstract class DataBindModule {
     abstract fun bindNewsNetworkDataSource(
         newsNetworkDataSourceImpl: NewsNetworkDataSourceImpl
     ): NewsNetworkDataSource
+
+    @Binds
+    abstract fun bindNewsLocalDataSource(
+        newsLocalDataSourceImpl: NewsLocalDataSourceImpl
+    ): NewsLocalDataSource
 }
