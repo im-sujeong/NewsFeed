@@ -13,3 +13,12 @@
 
 - Clean Architecture, MVI
 - Hilt, Coroutine, Room, Retrofit, Moshi, Glide, Paging3
+
+
+### 화면 구성
+#### 스타일
+![뉴스앱_스타일](https://github.com/user-attachments/assets/f806baba-c00a-4fc2-b669-a1f40cbf61bf)
+#### 라이트 테마
+![뉴스앱_라이트](https://github.com/user-attachments/assets/da365bb0-b228-4e0f-85ab-11c96b32c6a0)
+#### 다크 테마
+![뉴스앱_다크](https://github.com/user-attachments/assets/c93fedcd-9288-4aca-af72-8460944f6778)
