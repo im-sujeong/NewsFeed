@@ -39,4 +39,8 @@ class NewsRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun updateTopHeadlineRead(url: String) {
+        newsLocalDataSource.updateTopHeadlineRead(url)
+    }
 }

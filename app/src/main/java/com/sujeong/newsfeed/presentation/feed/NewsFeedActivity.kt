@@ -29,12 +29,6 @@ class NewsFeedActivity: BaseActivity<ActivityNewsFeedBinding>() {
         })
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel.fetchNewsFeed()
-    }
-
     override fun initViews() = with(binding) {
         rvNewsFeed.adapter = newsFeedAdapter
     }
@@ -50,6 +44,8 @@ class NewsFeedActivity: BaseActivity<ActivityNewsFeedBinding>() {
     }
 
     private fun openNewsDetail(topHeadline: TopHeadline) {
+        viewModel.onAction(newsFeedIntent = NewsFeedIntent.ClickNews(topHeadline))
+
         startActivity(
             Intent(
                 this,

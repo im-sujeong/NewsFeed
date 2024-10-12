@@ -21,6 +21,10 @@ class NewsLocalDataSourceImpl @Inject constructor(
         return newsDao.getReadTopHeadlines()
     }
 
+    override suspend fun updateTopHeadlineRead(url: String) {
+        newsDao.updateTopHeadlineRead(url)
+    }
+
     override suspend fun clearTopHeadlines() {
         newsDao.clearTopHeadlines()
     }

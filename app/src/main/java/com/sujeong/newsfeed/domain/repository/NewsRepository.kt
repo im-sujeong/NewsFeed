@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
     suspend fun fetchTopHeadlines(): Flow<PagingData<TopHeadline>>
+
+    suspend fun updateTopHeadlineRead(url: String)
 }

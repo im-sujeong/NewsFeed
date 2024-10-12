@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.sujeong.newsfeed.data.local.entity.TopHeadlineEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NewsDao {
@@ -18,6 +17,9 @@ interface NewsDao {
 
     @Query("SELECT * FROM topheadlineentity WHERE isRead = 1")
     suspend fun getReadTopHeadlines(): List<TopHeadlineEntity>
+
+    @Query("UPDATE topheadlineentity SET isRead = 1 WHERE url = :url")
+    suspend fun updateTopHeadlineRead(url: String)
 
     @Query("DELETE FROM topheadlineentity")
     suspend fun clearTopHeadlines()

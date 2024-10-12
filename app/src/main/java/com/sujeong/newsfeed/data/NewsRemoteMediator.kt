@@ -18,6 +18,8 @@ class NewsRemoteMediator(
     private val newsLocalDataSource: NewsLocalDataSource,
     private val newsNetworkDataSource: NewsNetworkDataSource,
 ): RemoteMediator<Int, TopHeadlineEntity>() {
+    private var readTopHeadlines: List<TopHeadlineEntity> = listOf()
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, TopHeadlineEntity>
@@ -50,8 +52,6 @@ class NewsRemoteMediator(
             )
 
             newsFeedDatabase.withTransaction {
-                var readTopHeadlines: List<TopHeadlineEntity> = listOf()
-
                 if(loadType == LoadType.REFRESH) {
                     //새로 고침 했을 경우, 읽은 기사를 가져온 후 초기화
                     readTopHeadlines = newsLocalDataSource.getReadTopHeadlines()
