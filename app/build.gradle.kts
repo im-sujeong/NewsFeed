@@ -1,5 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -24,10 +22,7 @@ android {
         buildConfigField("String", "BASE_URL", "\"https://newsapi.org/\"")
 
         //'빌드 편의성' 을 위해 API 키를 build.gradle 에 바로 작성 합니다.
-        buildConfigField("String", "API_KEY", "\"018cc808b03043c7adc60bc978f3aedc\"")
-
-        // local.properties 를 사용 할 경우
-        // buildConfigField("String", "API_KEY", getApiKey("newsapi.key"))
+        buildConfigField("String", "API_KEY", "\"a967da6e09b746a2854ca9d0b4856ada\"")
     }
 
     buildTypes {
@@ -52,10 +47,6 @@ android {
         viewBinding = true
         buildConfig = true
     }
-}
-
-fun getApiKey(key: String): String {
-    return gradleLocalProperties(rootDir, providers).getProperty(key)
 }
 
 dependencies {
