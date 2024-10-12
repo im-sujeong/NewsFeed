@@ -3,6 +3,8 @@ package com.sujeong.newsfeed.data.mapper
 import com.sujeong.newsfeed.data.local.entity.TopHeadlineEntity
 import com.sujeong.newsfeed.data.network.model.TopHeadlineDto
 import com.sujeong.newsfeed.domain.model.TopHeadline
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 fun List<TopHeadlineDto>.toTopHeadlineEntities(
     readTopHeadlineEntities: List<TopHeadlineEntity> = listOf()
@@ -25,7 +27,8 @@ fun TopHeadlineDto.toTopHeadlineEntity(
         url = url,
         urlToImage = urlToImage,
         publishedAt = publishedAt,
-        isRead = isRead
+        isRead = isRead,
+        isRemoved = title == "[Removed]"
     )
 }
 
@@ -35,6 +38,8 @@ fun TopHeadlineEntity.toTopHeadline(): TopHeadline {
         title = title,
         url = url,
         urlToImage = urlToImage,
-        isRead = isRead
+        publishedAt = LocalDateTime.parse(publishedAt, DateTimeFormatter.ISO_DATE_TIME),
+        isRead = isRead,
+        isRemoved = isRemoved
     )
 }

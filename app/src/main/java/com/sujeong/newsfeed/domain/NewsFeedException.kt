@@ -1,6 +1,8 @@
 package com.sujeong.newsfeed.domain
 
-import java.lang.Exception
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
+import kotlin.Exception
 
 sealed class NewsFeedException(
     override val message: String? = null
@@ -20,4 +22,19 @@ sealed class NewsFeedException(
     data class ParameterMissing(
         override val message: String?
     ): NewsFeedException(message)
+
+    data object DisconnectNetwork: NewsFeedException() {
+        private fun readResolve(): Any = DisconnectNetwork
+    }
+
+    companion object {
+        fun toNewsFeedException(e: Exception): Exception {
+            return when(e) {
+                is UnknownHostException,
+                is SocketTimeoutException,
+                is java.net.ConnectException -> DisconnectNetwork
+                else -> e
+            }
+        }
+    }
 }

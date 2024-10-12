@@ -3,6 +3,8 @@
     <color name="color_primary">#27272A</color>
     <color name="color_on_primary">#EEEEEE</color>
     <color name="color_secondary">#646464</color>
+    <color name="color_secondary_variant">#32646464</color>
+    <color name="color_on_secondary">#EEEEEE</color>
     <color name="color_text_primary">#27272A</color>
     <color name="color_text_secondary">#646464</color>
     <color name="color_text_tertiary">#D60000</color>

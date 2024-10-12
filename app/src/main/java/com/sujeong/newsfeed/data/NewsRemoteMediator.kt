@@ -10,6 +10,7 @@ import com.sujeong.newsfeed.data.local.entity.TopHeadlineEntity
 import com.sujeong.newsfeed.data.mapper.toTopHeadlineEntities
 import com.sujeong.newsfeed.data.source.NewsLocalDataSource
 import com.sujeong.newsfeed.data.source.NewsNetworkDataSource
+import com.sujeong.newsfeed.domain.NewsFeedException
 
 @OptIn(ExperimentalPagingApi::class)
 class NewsRemoteMediator(
@@ -69,7 +70,7 @@ class NewsRemoteMediator(
                 endOfPaginationReached = topHeadlines.size < state.config.pageSize
             )
         }catch (e: Exception) {
-            MediatorResult.Error(e)
+            throw NewsFeedException.toNewsFeedException(e)
         }
     }
 }

@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="30dp"
+    android:layout_marginBottom="22dp"
     android:paddingHorizontal="6dp"
+    android:paddingVertical="8dp"
+    android:background="@drawable/ripple_background_item_news_feed"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
@@ -12,7 +14,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="기사사진"
-        android:background="@drawable/shape_rect_color_secondary_r4"
+        android:background="@drawable/shape_rect_color_secondary_variant_r4"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,6 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textColor="@color/selector_color_item_news_feed_title"
+        android:maxLines="2"
+        android:ellipsize="end"
         app:layout_constraintTop_toBottomOf="@id/iv_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +52,7 @@
         android:layout_height="2dp"
         android:layout_marginStart="8dp"
         android:src="@drawable/shape_oval"
-        android:tint="@color/color_secondary"
+        android:tint="?attr/textColorSecondary"
         app:layout_constraintTop_toTopOf="@id/tv_date"
         app:layout_constraintStart_toEndOf="@id/tv_date"
         app:layout_constraintBottom_toBottomOf="@id/tv_date"/>

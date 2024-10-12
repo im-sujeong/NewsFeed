@@ -85,4 +85,7 @@ dependencies {
 
     //Paging
     implementation(libs.androidx.paging.runtime.ktx)
+
+    //Timber Log
+    implementation(libs.timber)
 }
