@@ -23,6 +23,10 @@ sealed class NewsFeedException(
         override val message: String?
     ): NewsFeedException(message)
 
+    data class RateLimited(
+        override val message: String?
+    ): NewsFeedException(message)
+
     data object DisconnectNetwork: NewsFeedException() {
         private fun readResolve(): Any = DisconnectNetwork
     }

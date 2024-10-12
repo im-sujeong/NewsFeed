@@ -70,7 +70,9 @@ class NewsRemoteMediator(
                 endOfPaginationReached = topHeadlines.size < state.config.pageSize
             )
         }catch (e: Exception) {
-            throw NewsFeedException.toNewsFeedException(e)
+            MediatorResult.Error(
+                NewsFeedException.toNewsFeedException(e)
+            )
         }
     }
 }

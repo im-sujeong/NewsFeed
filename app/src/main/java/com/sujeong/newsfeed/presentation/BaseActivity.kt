@@ -5,7 +5,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewbinding.ViewBinding
-import kotlinx.coroutines.Job
 
 abstract class BaseActivity<VB: ViewBinding>: AppCompatActivity() {
     protected lateinit var binding: VB
@@ -22,7 +21,7 @@ abstract class BaseActivity<VB: ViewBinding>: AppCompatActivity() {
 
     abstract fun initViews(): Unit?
 
-    abstract fun observeState(): Job
+    abstract fun observeState()
 
     open fun setToolbar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)

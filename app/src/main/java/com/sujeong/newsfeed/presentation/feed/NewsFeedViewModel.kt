@@ -8,7 +8,9 @@ import com.sujeong.newsfeed.domain.usecase.FetchTopHeadlines
 import com.sujeong.newsfeed.domain.usecase.UpdateTopHeadlineRead
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onStart
@@ -31,30 +33,22 @@ class NewsFeedViewModel @Inject constructor(
         initialValue = NewsFeedState()
     )
 
+    private val _newsFeedUiEffect = MutableSharedFlow<NewsFeedUiEffect>()
+    val newsFeedUiEffect: SharedFlow<NewsFeedUiEffect> = _newsFeedUiEffect
+
     fun onAction(newsFeedIntent: NewsFeedIntent) {
         when(newsFeedIntent) {
             is NewsFeedIntent.ClickNews -> viewModelScope.launch {
                 updateTopHeadlineRead(newsFeedIntent.topHeadline)
             }
+
+            is NewsFeedIntent.OnPagingError -> handleError(newsFeedIntent.error)
         }
     }
 
     private fun fetchNewsFeed() = viewModelScope.launch(
         CoroutineExceptionHandler { _, throwable ->
-            Timber.e("$throwable")
-
-            if(throwable is NewsFeedException) {
-                // NewsFeedException 처리
-                when(throwable) {
-                    is NewsFeedException.ApiKeyInvalid -> Unit
-                    is NewsFeedException.ApiKeyMissing -> Unit
-                    is NewsFeedException.ParameterMissing -> Unit
-                    NewsFeedException.UnknownServerError -> Unit
-                    NewsFeedException.DisconnectNetwork -> Unit
-                }
-            }else {
-                // 그 외 Exception 처리
-            }
+            handleError(throwable)
         }
     ){
         fetchTopHeadlines()
@@ -65,5 +59,31 @@ class NewsFeedViewModel @Inject constructor(
                     topHeadlines = it
                 )
             }
+    }
+
+    private fun handleError(throwable: Throwable) {
+        Timber.e("$throwable")
+
+        if(throwable is NewsFeedException) {
+            // NewsFeedException 처리
+            when(throwable) {
+                is NewsFeedException.ApiKeyInvalid,
+                is NewsFeedException.ApiKeyMissing,
+                is NewsFeedException.ParameterMissing,
+                is NewsFeedException.RateLimited -> {
+                    viewModelScope.launch {
+                        _newsFeedUiEffect.emit(NewsFeedUiEffect.ShowErrorToast(throwable.message))
+                    }
+                }
+                NewsFeedException.UnknownServerError -> Unit
+                NewsFeedException.DisconnectNetwork -> Unit
+            }
+        }else {
+            // 그 외 Exception 처리
+        }
+
+        _newsFeedState.value = _newsFeedState.value.copy(
+            isLoading = false
+        )
     }
 }

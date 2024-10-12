@@ -17,10 +17,11 @@ fun <T> Response<BaseResponseDto<T>>.toData(): T {
 
         throw errorBody()?.string()?.let { errorBody ->
             jsonAdapter.fromJson(errorBody)?.let {
-                when (it.status) {
+                when (it.code) {
                     "apiKeyMissing" -> NewsFeedException.ApiKeyMissing(it.message)
                     "apiKeyInvalid" -> NewsFeedException.ApiKeyInvalid(it.message)
                     "parametersMissing" -> NewsFeedException.ParameterMissing(it.message)
+                    "rateLimited" -> NewsFeedException.RateLimited(it.message)
                     else -> NewsFeedException.UnknownServerError
                 }
             }

@@ -6,4 +6,8 @@ sealed class NewsFeedIntent {
     data class ClickNews(
         val topHeadline: TopHeadline
     ): NewsFeedIntent()
+
+    data class OnPagingError(
+        val error: Throwable
+    ): NewsFeedIntent()
 }

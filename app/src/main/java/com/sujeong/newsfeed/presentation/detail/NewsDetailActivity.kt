@@ -33,12 +33,14 @@ class NewsDetailActivity: BaseActivity<ActivityNewsDetailBinding>() {
         }
     }
 
-    override fun observeState() = lifecycleScope.launch {
-        viewModel.state.collect {
-            it.topHeadline?.let { topHeadline ->
-                binding.webView.loadUrl(topHeadline.url)
+    override fun observeState(){
+        lifecycleScope.launch {
+            viewModel.state.collect {
+                it.topHeadline?.let { topHeadline ->
+                    binding.webView.loadUrl(topHeadline.url)
 
-                title = topHeadline.title
+                    title = topHeadline.title
+                }
             }
         }
     }
