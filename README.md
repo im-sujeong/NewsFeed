@@ -4,15 +4,18 @@
 - 클릭 시 웹뷰를 통해 뉴스 상세 페이지 노출
 - **Paging3-RemoreMediator**와 **Room**을 사용하여 **로컬 캐싱** 기능 구현
     - **이미지 캐싱은 Glide 기본 캐싱** (`DiskCacheStrategy.AUTOMATIC`)을 사용
+</br>
 
-### 사용 언어
+### 사용 언어 / 기술
 
 - Kotlin
-
-### 사용 기술
-
 - Clean Architecture, MVI
 - Hilt, Coroutine, Room, Retrofit, Moshi, Glide, Paging3
+</br>
+
+### 아키텍쳐
+![뉴스앱_구조](https://github.com/user-attachments/assets/b56a87d2-a281-4f79-986a-5ebe69231010) 
+
 </br>
 
 ### 화면 구성
