@@ -1,4 +1,4 @@
-### ‘NewsFeed’ 앱?
+### ‘NewsFeed’ 앱 개요
 
 - [https://newsapi.org/](https://newsapi.org/) 의 ‘TopHeadline’ API 를 사용하여 간단한 뉴스 목록 제공
 - 클릭 시 웹뷰를 통해 뉴스 상세 페이지 노출
