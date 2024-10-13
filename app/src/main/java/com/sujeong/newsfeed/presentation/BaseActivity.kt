@@ -28,13 +28,10 @@ abstract class BaseActivity<VB: ViewBinding>: AppCompatActivity() {
 
         supportActionBar?.let {
             with(it) {
+                setDisplayShowTitleEnabled(false)
                 setDisplayHomeAsUpEnabled(true)
             }
         }
-    }
-
-    override fun setTitle(title: CharSequence?) {
-        supportActionBar?.title = title
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
