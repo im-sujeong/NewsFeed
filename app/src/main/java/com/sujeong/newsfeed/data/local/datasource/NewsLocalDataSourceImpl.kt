@@ -28,4 +28,8 @@ class NewsLocalDataSourceImpl @Inject constructor(
     override suspend fun clearTopHeadlines() {
         newsDao.clearTopHeadlines()
     }
+
+    override suspend fun getTopHeadlineCount(): Int {
+        return newsDao.getTopHeadlineCount()
+    }
 }

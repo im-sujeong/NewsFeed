@@ -40,6 +40,5 @@ fun TopHeadlineEntity.toTopHeadline(): TopHeadline {
         urlToImage = urlToImage,
         publishedAt = LocalDateTime.parse(publishedAt, DateTimeFormatter.ISO_DATE_TIME),
         isRead = isRead,
-        isRemoved = isRemoved
     )
 }

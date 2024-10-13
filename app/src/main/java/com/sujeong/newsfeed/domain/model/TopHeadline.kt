@@ -12,5 +12,4 @@ data class TopHeadline(
     val urlToImage: String?,
     val publishedAt: LocalDateTime,
     val isRead: Boolean,
-    val isRemoved: Boolean
 ) : Parcelable

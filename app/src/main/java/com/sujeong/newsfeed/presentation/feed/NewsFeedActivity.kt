@@ -3,6 +3,7 @@ package com.sujeong.newsfeed.presentation.feed
 import android.content.Intent
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -35,6 +36,10 @@ class NewsFeedActivity: BaseActivity<ActivityNewsFeedBinding>() {
         rvNewsFeed.adapter = newsFeedAdapter
 
         newsFeedAdapter.addLoadStateListener { loadState ->
+            val isEmpty = newsFeedAdapter.itemCount == 0
+
+            tvNoData.isVisible = isEmpty
+
             val error = if(loadState.refresh is LoadState.Error) {
                 (loadState.refresh as LoadState.Error).error
             }else if(loadState.append is LoadState.Error) {
@@ -42,6 +47,8 @@ class NewsFeedActivity: BaseActivity<ActivityNewsFeedBinding>() {
             }else if(loadState.prepend is LoadState.Error) {
                 (loadState.prepend as LoadState.Error).error
             }else {
+                pbLoading.isVisible = isEmpty
+
                 return@addLoadStateListener
             }
 
@@ -52,8 +59,6 @@ class NewsFeedActivity: BaseActivity<ActivityNewsFeedBinding>() {
     override fun observeState() {
         lifecycleScope.launch {
             viewModel.newsFeedState.collect { state ->
-                binding.pbLoading.isVisible = state.isLoading
-
                 newsFeedAdapter.submitData(
                     state.topHeadlines
                 )
@@ -64,6 +69,8 @@ class NewsFeedActivity: BaseActivity<ActivityNewsFeedBinding>() {
             viewModel.newsFeedUiEffect.collectLatest { effect ->
                 when(effect) {
                     is NewsFeedUiEffect.ShowErrorToast -> {
+                        binding.pbLoading.isGone = true
+
                         Toast.makeText(
                             this@NewsFeedActivity,
                             effect.message,

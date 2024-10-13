@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">NewsFeed</string>
-    <string name="removed_news">삭제된 기사입니다.</string>
+    <string name="no_data">새로운 뉴스가 없습니다.</string>
 </resources>

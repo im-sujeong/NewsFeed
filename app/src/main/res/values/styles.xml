@@ -10,6 +10,11 @@
         <item name="fontFamily">@font/pretendard_bold</item>
     </style>
 
+    <style name="TextAppearance.NewsFeed.Body" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16dp</item>
+        <item name="fontFamily">@font/pretendard_light</item>
+    </style>
+
     <style name="TextAppearance.NewsFeed.Label" parent="TextAppearance.AppCompat">
         <item name="android:textSize">12dp</item>
         <item name="fontFamily">@font/pretendard_light</item>

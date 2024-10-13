@@ -13,4 +13,6 @@ interface NewsLocalDataSource {
     suspend fun updateTopHeadlineRead(url: String)
 
     suspend fun clearTopHeadlines()
+
+    suspend fun getTopHeadlineCount(): Int
 }

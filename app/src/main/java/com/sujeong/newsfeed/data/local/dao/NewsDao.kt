@@ -12,7 +12,7 @@ interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTopHeadlines(topHeadlines: List<TopHeadlineEntity>)
 
-    @Query("SELECT * FROM topheadlineentity")
+    @Query("SELECT * FROM topheadlineentity WHERE isRemoved = 0")
     fun getTopHeadlines(): PagingSource<Int, TopHeadlineEntity>
 
     @Query("SELECT * FROM topheadlineentity WHERE isRead = 1")
@@ -23,4 +23,7 @@ interface NewsDao {
 
     @Query("DELETE FROM topheadlineentity")
     suspend fun clearTopHeadlines()
+
+    @Query("SELECT COUNT(*) FROM topheadlineentity")
+    suspend fun getTopHeadlineCount(): Int
 }

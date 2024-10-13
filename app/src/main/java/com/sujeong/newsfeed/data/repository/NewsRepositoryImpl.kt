@@ -24,7 +24,7 @@ class NewsRepositoryImpl @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun fetchTopHeadlines(): Flow<PagingData<TopHeadline>> {
         return Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(pageSize = 10),
             remoteMediator = NewsRemoteMediator(
                 newsFeedDatabase = newsFeedDatabase,
                 newsNetworkDataSource = newsNetworkDataSource,

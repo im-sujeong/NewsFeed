@@ -18,6 +18,10 @@ class NewsRemoteMediator(
     private val newsLocalDataSource: NewsLocalDataSource,
     private val newsNetworkDataSource: NewsNetworkDataSource,
 ): RemoteMediator<Int, TopHeadlineEntity>() {
+    companion object {
+        const val REMOTE_PAGE_SIZE = 20
+    }
+
     private var readTopHeadlines: List<TopHeadlineEntity> = listOf()
 
     override suspend fun load(
@@ -39,16 +43,16 @@ class NewsRemoteMediator(
                     if(lastItem == null) {
                         1
                     }else {
-                        val totalDataSize = state.pages.lastOrNull()?.data?.size ?: 0
+                        val totalDataSize = newsLocalDataSource.getTopHeadlineCount()
 
-                        totalDataSize / state.config.pageSize + 1
+                        totalDataSize / REMOTE_PAGE_SIZE + 1
                     }
                 }
             }
 
             val topHeadlines = newsNetworkDataSource.fetchTopHeadlines(
                 page = loadKey,
-                pageSize = state.config.pageSize
+                pageSize = REMOTE_PAGE_SIZE
             )
 
             newsFeedDatabase.withTransaction {
@@ -67,7 +71,7 @@ class NewsRemoteMediator(
             }
 
             MediatorResult.Success(
-                endOfPaginationReached = topHeadlines.size < state.config.pageSize
+                endOfPaginationReached = topHeadlines.size < REMOTE_PAGE_SIZE
             )
         }catch (e: Exception) {
             MediatorResult.Error(

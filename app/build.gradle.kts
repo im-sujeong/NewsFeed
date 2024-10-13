@@ -21,8 +21,8 @@ android {
 
         buildConfigField("String", "BASE_URL", "\"https://newsapi.org/\"")
 
-        //'빌드 편의성' 을 위해 API 키를 build.gradle 에 바로 작성 합니다.
-        buildConfigField("String", "API_KEY", "\"a967da6e09b746a2854ca9d0b4856ada\"")
+        //'빌드 편의성' 을 위해 API 키를 build.gradle 에 바로 작성 합니다. (원래는 local.properties 에 작성)
+        buildConfigField("String", "API_KEY", "\"018cc808b03043c7adc60bc978f3aedc\"")
     }
 
     buildTypes {
