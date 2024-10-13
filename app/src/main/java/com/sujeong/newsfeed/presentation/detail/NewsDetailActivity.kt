@@ -1,8 +1,10 @@
 package com.sujeong.newsfeed.presentation.detail
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.net.http.SslError
 import android.os.Build
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowInsets.Type
 import android.view.WindowInsetsController
@@ -12,10 +14,12 @@ import android.webkit.WebViewClient
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import com.sujeong.newsfeed.databinding.ActivityNewsDetailBinding
 import com.sujeong.newsfeed.presentation.BaseActivity
+import com.sujeong.newsfeed.util.extensions.getStatusBarHeight
 import kotlinx.coroutines.launch
 
 class NewsDetailActivity: BaseActivity<ActivityNewsDetailBinding>() {
@@ -23,24 +27,35 @@ class NewsDetailActivity: BaseActivity<ActivityNewsDetailBinding>() {
 
     private val viewModel: NewsDetailViewModel by viewModels()
 
-    @SuppressLint("SetJavaScriptEnabled")
+    private val gestureDetector by lazy {
+        GestureDetector(this@NewsDetailActivity, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                viewModel.onAction(NewsDetailIntent.ToggleToolbarSection)
+                return super.onSingleTapConfirmed(e)
+            }
+        })
+    }
+
+    @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
     override fun initViews() = with(binding){
         enableEdgeToEdge()
 
-        root.setOnApplyWindowInsetsListener { view, insets ->
-            val statusBarHeight = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                insets.getInsets(
-                    Type.systemBars()
-                ).top
-            }else {
-                view.rootWindowInsets.systemWindowInsetTop
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            root.setOnApplyWindowInsetsListener { view, windowInsets ->
+                val topInsets = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    view.rootWindowInsets.getInsets(Type.systemBars()).top
+                }else {
+                    view.rootWindowInsets.systemWindowInsets.top
+                }
 
-            if(statusBarHeight > 0) {
-                binding.toolbar.updatePadding(top = statusBarHeight)
-            }
+                if(topInsets > 0) {
+                    toolbar.updatePadding(top = topInsets)
+                }
 
-            insets
+                windowInsets
+            }
+        }else {
+            toolbar.updatePadding(top = getStatusBarHeight())
         }
 
         setToolbar(toolbar)
@@ -54,6 +69,11 @@ class NewsDetailActivity: BaseActivity<ActivityNewsDetailBinding>() {
                 pbLoading.progress = newProgress
                 pbLoading.isGone = newProgress >= 100
             }
+        }
+
+        webView.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            false
         }
 
         with(webView.settings) {
@@ -84,9 +104,13 @@ class NewsDetailActivity: BaseActivity<ActivityNewsDetailBinding>() {
         lifecycleScope.launch {
             viewModel.state.collect {
                 it.topHeadline?.let { topHeadline ->
+                    if(binding.webView.url != null) return@let
+
                     binding.webView.loadUrl(topHeadline.url)
                     binding.tvTitle.text = topHeadline.title
                 }
+
+                toggleToolbarSection(it.isToolbarVisible)
             }
         }
     }
@@ -95,5 +119,22 @@ class NewsDetailActivity: BaseActivity<ActivityNewsDetailBinding>() {
         super.finish()
 
         binding.webView.destroy()
+    }
+
+    private fun toggleToolbarSection(isVisible: Boolean) = with(binding){
+        val start = toolbar.alpha
+        val end = if(isVisible) 1f else 0f
+
+        ValueAnimator.ofFloat(start, end).apply {
+            duration = 200
+
+            addUpdateListener {
+                toolbar.alpha = it.animatedValue as Float
+                pbLoading.alpha = it.animatedValue as Float
+
+                toolbar.isVisible = it.animatedValue as Float > 0f
+                pbLoading.isVisible = it.animatedValue as Float > 0f
+            }
+        }.start()
     }
 }

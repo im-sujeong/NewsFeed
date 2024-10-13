@@ -9,4 +9,5 @@
     <color name="color_text_secondary">#939393</color>
     <color name="color_text_tertiary">#C60000</color>
     <color name="color_background">#27272A</color>
+    <color name="color_background_toolbar">#8027272A</color>
 </resources>
