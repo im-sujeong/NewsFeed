@@ -9,11 +9,11 @@
 ### 사용 언어 / 기술
 
 - Kotlin
-- Clean Architecture, MVI
 - Hilt, Coroutine, Room, Retrofit, Moshi, Glide, Paging3
 </br>
 
-### 아키텍쳐
+### 아키텍쳐 / 디자인패턴
+- Clean Architecture + MVI
 ![뉴스앱_구조](https://github.com/user-attachments/assets/b56a87d2-a281-4f79-986a-5ebe69231010) 
 
 </br>
